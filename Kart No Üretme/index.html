@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kart Numarası Üretici</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Kart Üretici">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Giriş Ekranı -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Giriş Yap</button>
+                <button class="auth-tab" data-tab="register">Kayıt Ol</button>
+            </div>
+
+            <!-- Giriş Formu -->
+            <div id="loginForm" class="auth-form">
+                <h2>Giriş Yap</h2>
+                <div class="input-group">
+                    <label for="username">Kullanıcı Adı:</label>
+                    <input type="text" id="username" placeholder="Kullanıcı adınızı girin">
+                </div>
+                <div class="input-group">
+                    <label for="password">Şifre:</label>
+                    <input type="password" id="password" placeholder="Şifrenizi girin">
+                </div>
+                <button id="loginBtn" class="cta-button">Giriş Yap</button>
+            </div>
+
+            <!-- Kayıt Formu -->
+            <div id="registerForm" class="auth-form hidden">
+                <h2>Kayıt Ol</h2>
+                <div class="input-group">
+                    <label for="regUsername">Kullanıcı Adı:</label>
+                    <input type="text" id="regUsername" placeholder="Kullanıcı adı belirleyin">
+                </div>
+                <div class="input-group">
+                    <label for="regPassword">Şifre:</label>
+                    <input type="password" id="regPassword" placeholder="Şifre belirleyin">
+                </div>
+                <div class="input-group">
+                    <label for="regPasswordConfirm">Şifre Tekrar:</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="Şifreyi tekrar girin">
+                </div>
+                <button id="registerBtn" class="cta-button">Kayıt Ol</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ana Uygulama -->
+    <div id="mainContent" class="main-content hidden">
+        <header>
+            <nav>
+                <div class="logo">Kart No Üretici</div>
+                <ul>
+                    <li>
+                        <button id="exportBtn" class="export-btn" title="Kart numaralarını Excel'e aktarır">Excel'e Aktar</button>
+                    </li>
+                    <li>
+                        <button id="backupBtn" class="backup-btn" title="Veritabanını yedekler">Yedekle</button>
+                    </li>
+                    <li>
+                        <input type="file" id="restoreFile" accept=".json" style="display: none;">
+                        <button id="restoreBtn" class="restore-btn" title="Veritabanını geri yükler">Geri Yükle</button>
+                    </li>
+                    <li>
+                        <button id="logoutBtn" class="logout-btn">Çıkış Yap</button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="dashboard-layout">
+            <!-- Sol Sütun - Kart Oluşturma -->
+            <div class="left-column" style="flex: 0 0 600px;">
+                <div class="card-generator-container">
+                    <h2>Kart Numarası Oluştur</h2>
+                    <div class="card-generator">
+                        <div class="number-inputs">
+                            <div class="input-group">
+                                <label for="cardInput">Kart Numarası:</label>
+                                <input type="text" id="cardInput" maxlength="19" placeholder="Kart numarasını giriniz">
+                            </div>
+
+                            <div class="color-selection">
+                                <h3>Kart Tipi Seçin:</h3>
+                                <div class="color-options">
+                                    <button class="color-btn" data-color="black">
+                                        <span class="card-label">Siyah</span>
+                                    </button>
+                                    <button class="color-btn" data-color="navy">
+                                        <span class="card-label">Lacivert</span>
+                                    </button>
+                                    <button class="color-btn" data-color="gray">
+                                        <span class="card-label">Gri</span>
+                                    </button>
+                                    <button class="color-btn" data-color="private-orange">
+                                        <span class="card-label">Private Turuncu</span>
+                                    </button>
+                                    <button class="color-btn" data-color="private-black">
+                                        <span class="card-label">Private Siyah</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="quantity">Oluşturulacak Kart Sayısı:</label>
+                            <input type="number" id="quantity" min="1" max="1000" value="1">
+                        </div>
+
+                        <button id="generateBtn" class="cta-button">Kart Numarası Oluştur</button>
+                    </div>
+
+                    <!-- Kart Sorgulama -->
+                    <div class="card-search">
+                        <h2>Kart Numarası Sorgula</h2>
+                        <div class="input-group">
+                            <label for="searchNumber">Kart Numarası:</label>
+                            <input type="text" id="searchNumber" placeholder="Kart numarasını girin">
+                        </div>
+                        <button id="searchBtn" class="cta-button">Sorgula</button>
+                        <div id="searchResult" class="search-result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Sütun - Sonuçlar ve Kayıtlar -->
+            <div class="right-column" style="flex: 1;">
+                <!-- Oluşturulan Kartlar -->
+                <div class="results-container" style="max-height: 400px;">
+                    <h2>Oluşturulan Kartlar</h2>
+                    <div id="cardNumberList" class="card-number-list" style="max-height: 350px;">
+                        <div id="cardNumber" class="card-number" style="font-size: 1.1rem;">---- ---- ---- ----</div>
+                    </div>
+                </div>
+
+                <!-- Son Kayıtlar -->
+                <div class="recent-cards-container">
+                    <h2>Son Kayıtlar</h2>
+                    <div class="recent-cards">
+                        <div class="recent-cards-header">
+                            <div class="header-item">Kart Numarası</div>
+                            <div class="header-item">Kart Tipi</div>
+                            <div class="header-item">Tarih</div>
+                            <div class="header-item">İşlem</div>
+                        </div>
+                        <div id="recentCardsList" class="recent-cards-list">
+                            <!-- Kayıtlar buraya eklenecek -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Kart Numarası Üretici - Tüm hakları saklıdır.</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/sw.js"></script>
+</body>
+</html> 
